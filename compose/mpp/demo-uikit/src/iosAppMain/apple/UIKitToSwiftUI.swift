@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package androidx.compose.mpp.demo
+import UIKit
+import SwiftUI
 
-import platform.UIKit.UIViewController
+struct UIKitToSwiftUI: UIViewRepresentable {
 
-class SwiftHelper {
-    fun getViewController(onClose: () -> Unit): UIViewController = getViewControllerWithCompose(onClose)
+    func makeUIView(context: Context) -> UISearchBar {
+
+        return UISearchBar()
+    }
+
+    func updateUIView(_ uiView: UISearchBar, context: Context) {
+
+        // Update the view
+    }
 }

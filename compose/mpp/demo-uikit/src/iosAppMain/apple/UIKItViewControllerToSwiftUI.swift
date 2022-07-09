@@ -14,10 +14,21 @@
  * limitations under the License.
  */
 
-package androidx.compose.mpp.demo
+import UIKit
+import SwiftUI
+import shared
 
-import platform.UIKit.UIViewController
+struct UIKitViewControllerToSwiftUI: UIViewControllerRepresentable {
+    private let onClose: () -> ()
+    init(onClose: @escaping () -> ()) {
+        self.onClose = onClose
+    }
 
-class SwiftHelper {
-    fun getViewController(onClose: () -> Unit): UIViewController = getViewControllerWithCompose(onClose)
+    func makeUIViewController(context: Context) -> UIViewController {
+        return SwiftHelper().getViewController(onClose: onClose)
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+
+    }
 }

@@ -18,6 +18,7 @@ package androidx.compose.mpp.demo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.getValue
@@ -30,7 +31,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.window.Application
 
-fun getViewControllerWithCompose() = Application("Compose/Native sample") {
+fun getViewControllerWithCompose(onClose: () -> Unit) = Application("Compose/Native sample") {
     var textState1 by remember { mutableStateOf("text field 1") }
     var textState2 by remember { mutableStateOf("text field 2") }
     Column {
@@ -58,5 +59,10 @@ fun getViewControllerWithCompose() = Application("Compose/Native sample") {
             },
             contentDescription = "image sample"
         )
+        Button(onClick = {
+            onClose()
+        }) {
+            Text("Close current screen")
+        }
     }
 }
