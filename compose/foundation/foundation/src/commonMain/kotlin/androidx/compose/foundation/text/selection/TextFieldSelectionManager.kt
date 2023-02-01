@@ -654,7 +654,7 @@ internal class TextFieldSelectionManager(
             }
         } else null
 
-        val paste: (() -> Unit)? = if (editable && clipboardManager?.getText() != null) {
+        val paste: (() -> Unit)? = if (editable && clipboardManager?.hasText() == true) {
             {
                 paste()
                 hideSelectionToolbar()

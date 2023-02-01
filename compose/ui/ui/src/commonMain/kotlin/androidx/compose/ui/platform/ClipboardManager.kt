@@ -37,4 +37,11 @@ interface ClipboardManager {
      * [CharSequence] text in Clipboard to [AnnotatedString].
      */
     fun getText(): AnnotatedString?
+
+    /**
+     * This method returns true, if clipboard contains text.
+     * We should override this method on UIKit, because platform request additional permission, when
+     * getting clipboard text.
+     */
+    fun hasText(): Boolean = !getText().isNullOrEmpty()
 }
