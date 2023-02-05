@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package androidx.compose.mpp.demo
+import UIKit
+import SwiftUI
 
-import platform.UIKit.UIViewController
+struct UIKitToSwiftUI: UIViewRepresentable {
 
-class SwiftHelper {
-    fun getViewController(onInteract: (InteractData) -> Unit): UIViewController = getViewControllerWithCompose(onInteract)
+    func makeUIView(context: Context) -> UISearchBar {
+
+        return UISearchBar()
+    }
+
+    func updateUIView(_ uiView: UISearchBar, context: Context) {
+
+        // Update the view
+    }
 }
-
-data class InteractData(
-    val darkTheme: Boolean = false,
-    val swiftUIColor: Int = DEFAULT_COLOR.toInt(),
-)
