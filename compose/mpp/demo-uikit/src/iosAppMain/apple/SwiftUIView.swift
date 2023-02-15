@@ -17,6 +17,9 @@
 import SwiftUI
 import UIKit
 
+// https://www.bigmountainstudio.com/community/public/posts/80041-how-do-i-customize-the-navigationview-in-swiftui
+// https://www.bigmountainstudio.com/community/public/posts/86559-how-to-customize-the-tabview-in-swiftui
+
 struct SwiftUIView: View {
 
     @State private var textState: String = "text state"
