@@ -47,11 +47,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Application
 
 fun getViewControllerWithCompose() =
-    Application("Compose/Native sample") {
+    Application {
         val t = remember { mutableStateOf("text state") }
         Box(Modifier.fillMaxSize()) {
-            Text(buildString { repeat(5){appendLine("Up $it")} }, Modifier.align(Alignment.TopStart).background(Color.LightGray))
+            Text(buildString { repeat(10){appendLine("Up ${it + 1}")} }, Modifier.align(Alignment.TopStart).background(Color.LightGray))
             TextField(t.value, {t.value = it}, Modifier.align(Alignment.Center).fillMaxWidth())
-            Text(buildString { repeat(5){appendLine("Down $it")} }, Modifier.align(Alignment.BottomStart).background(Color.LightGray))
+            Text(buildString { repeat(10){appendLine("Down ${it+ 1}")} }, Modifier.align(Alignment.BottomStart).background(Color.LightGray))
         }
     }

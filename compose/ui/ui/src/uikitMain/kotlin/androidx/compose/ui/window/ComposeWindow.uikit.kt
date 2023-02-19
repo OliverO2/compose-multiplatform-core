@@ -49,9 +49,15 @@ import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSSelectorFromString
 import platform.Foundation.NSValue
 import platform.UIKit.CGRectValue
+import platform.UIKit.UIButton
+import platform.UIKit.UIControlStateNormal
+import platform.UIKit.UIImage
+import platform.UIKit.UILabel
 import platform.UIKit.UIScreen
 import platform.UIKit.UIViewController
 import platform.UIKit.UIViewControllerTransitionCoordinatorProtocol
+import platform.UIKit.navigationController
+import platform.UIKit.navigationItem
 import platform.UIKit.reloadInputViews
 import platform.UIKit.setClipsToBounds
 import platform.UIKit.setNeedsDisplay
@@ -61,10 +67,11 @@ import platform.darwin.NSObject
 // The only difference with macos' Window is that
 // it has return type of UIViewController rather than unit.
 fun Application(
-    title: String = "JetpackNativeWindow",
+    title: String = "ComposeWindow",
     content: @Composable () -> Unit = { }
 
 ) = ComposeWindow().apply {
+    (this as UIViewController).setTitle(title)
     setTitle(title)
     setContent(content)
 } as UIViewController
@@ -229,6 +236,15 @@ internal actual class ComposeWindow : UIViewController {
         layer.setSize(width.roundToInt(), height.roundToInt())
         layer.layer.needRedraw()
         super.viewWillTransitionToSize(size, withTransitionCoordinator)
+    }
+
+    override fun viewDidLoad() {
+        super.viewDidLoad()
+//        val btn = UIButton().apply {
+//            setTitle("Btn", UIControlStateNormal)
+//        }
+//        navigationController?.navigationItem?.rightBarButtonItems = listOf(btn)
+//        navigationController?.navigationItem?.titleView = UILabel().also { it.text = "UILabel" }
     }
 
     override fun viewWillAppear(animated: Boolean) {

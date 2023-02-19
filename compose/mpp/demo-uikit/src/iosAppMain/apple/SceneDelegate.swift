@@ -22,12 +22,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = SwiftHelper().getViewController()
-            self.window = window
-            window.makeKeyAndVisible()
+        guard let windowScene = scene as? UIWindowScene else {
+            return
         }
+        let composeViewController:UIViewController = ViewController()//SwiftHelper().getViewController()
+        composeViewController.title = "Compose ViewController"
+        let window = UIWindow(windowScene: windowScene)
+        let navController = UINavigationController(rootViewController: composeViewController)
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.orange
+        navController.navigationBar.standardAppearance = appearance
+        navController.navigationBar.scrollEdgeAppearance = appearance
+
+
+        window.rootViewController = navController
+        self.window = window
+        window.makeKeyAndVisible()
     }
 
 }
+
