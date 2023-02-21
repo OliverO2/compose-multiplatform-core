@@ -25,10 +25,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else {
             return
         }
-        let composeViewController:UIViewController = ViewController()//SwiftHelper().getViewController()
-        composeViewController.title = "Compose ViewController"
+        let anotherSwiftController:UIViewController = ViewController()//SwiftHelper().getViewController()
+        anotherSwiftController.title = "Compose ViewController"
         let window = UIWindow(windowScene: windowScene)
-        let navController = UINavigationController(rootViewController: composeViewController)
+        let navController = UINavigationController(rootViewController: anotherSwiftController)
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.orange

@@ -40,8 +40,8 @@ class ViewController: UIViewController {
     @objc private func buttonHandler() {
         print("Navigation navigationItem buttonHandler")
         // Compose UIViewController
-        let contactViewController = SwiftHelper().getViewController()
-        navigationController?.pushViewController(contactViewController, animated: true)
+        let composeViewController = SwiftHelper().getViewController()
+        navigationController?.pushViewController(composeViewController, animated: true)
     }
 
     private func setContraints() {
