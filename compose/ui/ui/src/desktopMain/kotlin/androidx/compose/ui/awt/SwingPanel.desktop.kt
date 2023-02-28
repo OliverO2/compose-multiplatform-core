@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateObserver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
@@ -29,6 +28,7 @@ import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.interop.Updater
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -39,7 +39,6 @@ import java.awt.Component
 import java.awt.Container
 import java.awt.event.FocusEvent
 import java.awt.event.FocusListener
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JPanel
 import javax.swing.LayoutFocusTraversalPolicy
 import javax.swing.SwingUtilities
@@ -135,7 +134,14 @@ public fun <T : Component> SwingPanel(
             isFocusCycleRoot = true
             add(componentInfo.component)
         }
-        componentInfo.updater = Updater(componentInfo.component, update)
+        componentInfo.updater = Updater(
+            component = componentInfo.component,
+            update = { view ->
+                SwingUtilities.invokeLater {
+                    update(view)
+                }
+            }
+        )
         root.add(componentInfo.container)
         onDispose {
             root.remove(componentInfo.container)
@@ -249,53 +255,4 @@ private class ComponentInfo<T : Component> {
     lateinit var container: Container
     lateinit var component: T
     lateinit var updater: Updater<T>
-}
-
-private class Updater<T : Component>(
-    private val component: T,
-    update: (T) -> Unit
-) {
-    private var isDisposed = false
-    private val isUpdateScheduled = AtomicBoolean()
-    private val snapshotObserver = SnapshotStateObserver { command ->
-        command()
-    }
-
-    private val scheduleUpdate = { _: T ->
-        if (!isUpdateScheduled.getAndSet(true)) {
-            SwingUtilities.invokeLater {
-                isUpdateScheduled.set(false)
-                if (!isDisposed) {
-                    performUpdate()
-                }
-            }
-        }
-    }
-
-    var update: (T) -> Unit = update
-        set(value) {
-            if (field != value) {
-                field = value
-                performUpdate()
-            }
-        }
-
-    private fun performUpdate() {
-        // don't replace scheduleUpdate by lambda reference,
-        // scheduleUpdate should always be the same instance
-        snapshotObserver.observeReads(component, scheduleUpdate) {
-            update(component)
-        }
-    }
-
-    init {
-        snapshotObserver.start()
-        performUpdate()
-    }
-
-    fun dispose() {
-        snapshotObserver.stop()
-        snapshotObserver.clear()
-        isDisposed = true
-    }
 }
